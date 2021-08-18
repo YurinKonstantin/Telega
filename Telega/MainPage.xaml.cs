@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -46,18 +47,20 @@ namespace Telega
         {
             try
             {
-
+                Windows.Storage.StorageFolder installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
+                Debug.WriteLine(installedLocation.Path);
                 TLSharp.Core.FileSessionStore store = new TLSharp.Core.FileSessionStore();
-               
-                client = new TelegramClient(apiId, apiHash, store, "session");
+                
+                 client = new TelegramClient(apiId, apiHash, store, "session");
                 //if your app is not autenticated by telegram this code will send  request to add a new device then telegram will sent you a Autenticatin code
                 await client.ConnectAsync();
-                hash = await client.SendCodeRequestAsync(nomer);
+                
             }
             catch(Exception ex)
             {
                 MessageDialog messageDialog = new MessageDialog(ex.Message);
                 await messageDialog.ShowAsync();
+                //hash = await client.SendCodeRequestAsync(nomer);
             }
 
         }
@@ -112,8 +115,76 @@ namespace Telega
             //send message
             await client.SendMessageAsync(new TLInputPeerUser() { UserId = user.Id }, "hi test message");
         }
-    }
+        public async void getContact()
+        {
 
+            var result = await client.GetContactsAsync();
+
+
+            string ss1 = String.Empty;
+
+
+            foreach (var d in result.Contacts)
+            {
+                var user = result.Users
+              .Where(x => x.GetType() == typeof(TLUser))
+              .Cast<TLUser>()
+              .FirstOrDefault(x => x.Id == d.UserId);
+                if (user != null)
+                {
+                    try
+                    {
+                        if (user.FirstName != null && user.LastName != null)
+                        {
+                            ss1 += (user.FirstName).ToString() + "\t" + (user.LastName).ToString() + "\n";
+                        }
+                        else
+                        {
+                            if (user.FirstName != null)
+                            {
+                                try
+                                {
+
+
+                                    ss1 += (user.FirstName).ToString() + "\n";
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+                            if (user.LastName != null)
+                            {
+                                try
+                                {
+
+
+                                    ss1 += (user.LastName).ToString() + "\n";
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+
+
+
+
+            }
+           
+
+        }
+    }
+    
 }
 /*149.154.167.40:443
  * -----BEGIN RSA PUBLIC KEY-----
