@@ -157,6 +157,16 @@
       <Version>0.1.0.574</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\YurinKonstantin\TLSharpUWP\TeleSharpUWP.TL\TeleSharpUWP.TL.csproj">
+      <Project>{7a00adae-098d-4bd8-873c-2faa7ab806ac}</Project>
+      <Name>TeleSharpUWP.TL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\YurinKonstantin\TLSharpUWP\TLSharpUWP\TLSharpUWP.csproj">
+      <Project>{566407c7-57e3-4e1b-8820-c3087f25bb4b}</Project>
+      <Name>TLSharpUWP</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

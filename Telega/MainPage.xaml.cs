@@ -5,9 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using TeleSharp.TL;
-using TLSharp.Core;
-using TLSharp.Core.Exceptions;
+using TeleSharpUWP.TL;
+using TeleSharpUWP.TL.Contacts;
+//using TeleSharp.TL;
+//using TLSharp.Core;
+//using TLSharp.Core.Exceptions;
+using TLSharpUWP;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Popups;
@@ -47,9 +50,8 @@ namespace Telega
         {
             try
             {
-                Windows.Storage.StorageFolder installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
-                Debug.WriteLine(installedLocation.Path);
-                TLSharp.Core.FileSessionStore store = new TLSharp.Core.FileSessionStore();
+              
+                TLSharpUWP.FileSessionStore store = new TLSharpUWP.FileSessionStore();
                 
                  client = new TelegramClient(apiId, apiHash, store, "session");
                 //if your app is not autenticated by telegram this code will send  request to add a new device then telegram will sent you a Autenticatin code
@@ -88,7 +90,7 @@ namespace Telega
             await client.ConnectAsync();
 
             // Here is the code that will add a new contact and send a test message
-            TeleSharp.TL.Contacts.TLRequestImportContacts requestImportContacts = new TeleSharp.TL.Contacts.TLRequestImportContacts();
+            TLRequestImportContacts requestImportContacts = new TLRequestImportContacts();
             requestImportContacts.Contacts = new TLVector<TLInputPhoneContact>();
             requestImportContacts.Contacts.Add(new TLInputPhoneContact()
             {
@@ -96,7 +98,7 @@ namespace Telega
                 FirstName = "new Number's FirstName",
                 LastName = "new Number's LastName"
             });
-            var o = await client.SendRequestAsync<TeleSharp.TL.Contacts.TLImportedContacts>((TLMethod)requestImportContacts);
+            var o = await client.SendRequestAsync<TLImportedContacts>((TLMethod)requestImportContacts);
             var NewUserId = (o.Users.First() as TLUser).Id;
             var d = await client.SendMessageAsync(new TLInputPeerUser() { UserId = NewUserId }, "test message text");
 
