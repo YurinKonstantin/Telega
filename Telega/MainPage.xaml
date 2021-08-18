@@ -8,7 +8,15 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+   
+        <Grid>
+        <StackPanel>
+            <Button x:Name="button" Content="send Request" Click="button_Click"/>
+            <Button x:Name="button1" Content="autenticate new device"  Click="button1_Click" />
+            <Button x:Name="button2" Content="send Message" Click="button2_Click" />
 
+            <TextBox x:Name="txtAutCode" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="123" VerticalAlignment="Top" />
+        </StackPanel>
     </Grid>
+    
 </Page>
